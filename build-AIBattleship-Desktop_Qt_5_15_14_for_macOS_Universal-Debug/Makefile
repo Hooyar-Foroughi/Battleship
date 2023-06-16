@@ -212,7 +212,6 @@ DIST          = /Users/hooyar/Qt/5.15.14/macos/mkspecs/features/spec_pre.prf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/qt_config.prf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/macx-clang/qmake.conf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/spec_post.prf \
-		../src/.qmake.stash \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/exclusive_builds.prf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/mac/sdk.prf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/toolchain.prf \
@@ -420,7 +419,6 @@ Makefile: ../src/AIBattleship.pro /Users/hooyar/Qt/5.15.14/macos/mkspecs/macx-cl
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/qt_config.prf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/macx-clang/qmake.conf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/exclusive_builds.prf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/mac/sdk.prf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/toolchain.prf \
@@ -605,7 +603,6 @@ Makefile: ../src/AIBattleship.pro /Users/hooyar/Qt/5.15.14/macos/mkspecs/macx-cl
 /Users/hooyar/Qt/5.15.14/macos/mkspecs/features/qt_config.prf:
 /Users/hooyar/Qt/5.15.14/macos/mkspecs/macx-clang/qmake.conf:
 /Users/hooyar/Qt/5.15.14/macos/mkspecs/features/spec_post.prf:
-.qmake.stash:
 /Users/hooyar/Qt/5.15.14/macos/mkspecs/features/exclusive_builds.prf:
 /Users/hooyar/Qt/5.15.14/macos/mkspecs/features/mac/sdk.prf:
 /Users/hooyar/Qt/5.15.14/macos/mkspecs/features/toolchain.prf:
