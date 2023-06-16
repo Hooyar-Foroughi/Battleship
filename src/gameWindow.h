@@ -23,9 +23,13 @@ private:
     void setupGridButtons();
     void placeShips_AI();
     void initializeAllButtons();
-    void checkForWin();
+    bool checkForWin();
     void freezeCells();
     void unfreezeCells();
+    void setupInfoBar();
+    void onHit();
+    void onMiss();
+    void enableContinue();
 };
 
 #endif // GAMEWINDOW_H

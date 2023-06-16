@@ -343,24 +343,8 @@
       <property name="verticalSpacing">
        <number>-1</number>
       </property>
-      <item row="0" column="6">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>60</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
       <item row="0" column="1">
-       <spacer name="horizontalSpacer_2">
+       <spacer name="left_spacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -375,52 +359,71 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="label_19">
-        <property name="font">
-         <font>
-          <family>Futura</family>
-          <pointsize>20</pointsize>
-          <bold>true</bold>
-         </font>
+      <item row="0" column="12">
+       <widget class="QWidget" name="continue_widget" native="true">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
         </property>
-        <property name="styleSheet">
-         <string notr="true">QLabel {
-	color:black;
+        <layout class="QGridLayout" name="gridLayout_98">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="continue_btn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Futura</family>
+             <pointsize>20</pointsize>
+             <italic>true</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+	color: black;
+	background-color: grey;
+	border: 1px solid black;
+}
+
+QPushButton:hover{
+	background-color: rgba(255, 255, 0, 1);
+}
+
+QPushButton:pressed{
+	background-color: rgba(255, 255, 0, 0.3);
 }</string>
-        </property>
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
-        </property>
+           </property>
+           <property name="text">
+            <string>Continue</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="label_20">
-        <property name="font">
-         <font>
-          <family>Futura</family>
-          <pointsize>20</pointsize>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QLabel {
-	color:black;
-}</string>
-        </property>
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QLCDNumber" name="lcdNumber_2">
+      <item row="0" column="6">
+       <widget class="QLCDNumber" name="misses">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -434,33 +437,34 @@
           <bold>true</bold>
          </font>
         </property>
-        <property name="digitCount">
-         <number>1</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLCDNumber" name="lcdNumber">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <family>Futura</family>
-          <pointsize>24</pointsize>
-          <bold>true</bold>
-         </font>
+        <property name="styleSheet">
+         <string notr="true">QLCDNumber{
+	color: black;
+}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::Box</enum>
         </property>
         <property name="digitCount">
-         <number>1</number>
+         <number>2</number>
         </property>
        </widget>
+      </item>
+      <item row="0" column="11">
+       <spacer name="right_spacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>60</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item row="0" column="0">
        <widget class="QLabel" name="turn_label">
@@ -482,55 +486,124 @@
          <string>Your Turn!</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
-      <item row="0" column="7">
-       <widget class="QWidget" name="widget" native="true">
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+      <item row="0" column="2">
+       <widget class="QLabel" name="hm_label">
+        <property name="font">
+         <font>
+          <family>Futura</family>
+          <pointsize>20</pointsize>
+          <bold>true</bold>
+         </font>
         </property>
-        <layout class="QGridLayout" name="gridLayout_98">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QPushButton" name="pushButton_91">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>Futura</family>
-             <pointsize>20</pointsize>
-             <italic>true</italic>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
+        <property name="styleSheet">
+         <string notr="true">QLabel {
 	color:black;
 }</string>
-           </property>
-           <property name="text">
-            <string>Continue</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        </property>
+        <property name="text">
+         <string>H/M:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="10">
+       <widget class="QLCDNumber" name="remaining">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Futura</family>
+          <pointsize>24</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLCDNumber{
+	color: black;
+}</string>
+        </property>
+        <property name="digitCount">
+         <number>2</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLCDNumber" name="hits">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Futura</family>
+          <pointsize>24</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLCDNumber{
+	color: black;
+}</string>
+        </property>
+        <property name="digitCount">
+         <number>2</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="9">
+       <widget class="QLabel" name="remaining_label">
+        <property name="font">
+         <font>
+          <family>Futura</family>
+          <pointsize>20</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+	color:black;
+}</string>
+        </property>
+        <property name="text">
+         <string>Remaining:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLabel" name="hm_seperator">
+        <property name="font">
+         <font>
+          <family>Futura</family>
+          <pointsize>20</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+	color:black;
+}</string>
+        </property>
+        <property name="text">
+         <string>:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
      </layout>

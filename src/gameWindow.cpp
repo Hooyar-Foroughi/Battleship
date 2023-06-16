@@ -23,7 +23,7 @@ gameWindow::gameWindow(QWidget *parent)
     initializeAllButtons();
     setupGridButtons();
     placeShips_AI();
-
+    setupInfoBar();
 }
 
 gameWindow::~gameWindow()
@@ -31,7 +31,39 @@ gameWindow::~gameWindow()
     delete ui;
 }
 
-void gameWindow::checkForWin()
+void gameWindow::setupInfoBar()
+{
+    ui->remaining->display(ships*shipLength);
+    ui->hits->display(0);
+    ui->misses->display(0);
+    ui->continue_btn->setEnabled(false);
+}
+
+void gameWindow::onHit()
+{
+    int hits = ui->hits->value();
+    ui->hits->display(++hits);
+    int remaining = ui->remaining->value();
+    ui->remaining->display(--remaining);
+}
+
+void gameWindow::onMiss()
+{
+    int misses = ui->misses->value();
+    ui->misses->display(++misses);
+}
+
+void gameWindow::enableContinue()
+{
+    ui->continue_btn->setEnabled(true);
+    ui->continue_btn->setStyleSheet(
+        "QPushButton { color: black; background-color: rgba(0, 255, 0, 0.65); border: 1px solid black; }"
+        "QPushButton:hover { background-color: rgba(255, 255, 0, 1); }"
+        "QPushButton:pressed { background-color: rgba(255, 255, 0, 0.3); }"
+    );
+}
+
+bool gameWindow::checkForWin()
 {
     int shipsHit = 0;
     for (int i = 0; i < ships; i++)
@@ -46,10 +78,11 @@ void gameWindow::checkForWin()
             shipsHit++;
         }
     }
+
     if (shipsHit == ships)
-    {
-        qDebug() << "WON";
-    }
+        return true;
+    else
+        return false;
 }
 
 void gameWindow::placeShips_AI()
@@ -120,16 +153,22 @@ void gameWindow::onGridClick()
         clickedButton->setStyleSheet(
             "QPushButton { background-color: rgba(0, 255, 0, 0.65); border: 2px solid black; }"
             "QPushButton:hover { background-color: rgba(255, 255, 0, 1); }"
-            "QPushButton:pressed { background-color: rgba(255, 255, 0, 0.3); }");
+            "QPushButton:pressed { background-color: rgba(255, 255, 0, 0.3); }"
+        );
         checkForWin();
+        onHit();
     }
     else
     {
         clickedButton->setStyleSheet(
             "QPushButton { background-color: rgba(255, 0, 0, 0.65); border: 2px solid black; }"
             "QPushButton:hover { background-color: rgba(255, 255, 0, 1); }"
-            "QPushButton:pressed { background-color: rgba(255, 255, 0, 0.3); }");
+            "QPushButton:pressed { background-color: rgba(255, 255, 0, 0.3); }"
+        );
+        onMiss();
     }
+
+    enableContinue();
 }
 
 void gameWindow::setupGridButtons()
@@ -156,3 +195,9 @@ void gameWindow::initializeAllButtons()
     // Copy the buttons/cells to the global array
     std::copy(std::begin(gridButtons), std::end(gridButtons), std::begin(allButtons));
 }
+
+void gameWindow::on_continue_btn_clicked()
+{
+    return;
+}
+
