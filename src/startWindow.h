@@ -8,18 +8,19 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class startWindow; }
 QT_END_NAMESPACE
 
-class startWindow : public QMainWindow
+class StartWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    startWindow(QWidget *parent = nullptr);
-    ~startWindow();
+    StartWindow(QWidget *parent = nullptr);
+    ~StartWindow();
 
-private slots:
+signals:
     void on_start_btn_clicked();
 
 private:
     Ui::startWindow *ui;
+
 };
 #endif // STARTWINDOW_H

@@ -5,41 +5,46 @@
 #include <QDebug> // For debugging purposes
 
 // Number of total grid cells (i.e. 9x10)
-#define cells 90
+#define CELLS 90
 // Number of ships
-#define ships 4
+#define SHIPS 4
 // Number of cells for each ship
-#define shipLength 3
+#define SHIP_LENGTH 3
 // Global array holding pointers to each grid cell
-QPushButton* allButtons[cells];
+QPushButton* allButtons[CELLS];
 // Grid positions of ships
-int shipPositions[ships][shipLength];
+int shipPositions[SHIPS][SHIP_LENGTH];
 
-gameWindow::gameWindow(QWidget *parent)
+GameWindow::GameWindow(int windowType, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::gameWindow)
 {
     ui->setupUi(this);
-    initializeAllButtons();
-    setupGridButtons();
-    placeShips_AI();
-    setupInfoBar();
+
+    if (windowType == USER_WINDOW)
+    {
+        initializeAllButtons();
+        setupGridButtons();
+        placeShips_AI();
+        setupInfoBar();
+    }
+
 }
 
-gameWindow::~gameWindow()
+GameWindow::~GameWindow()
 {
     delete ui;
 }
 
-void gameWindow::setupInfoBar()
+void GameWindow::setupInfoBar()
 {
-    ui->remaining->display(ships*shipLength);
+    ui->remaining->display(SHIPS*SHIP_LENGTH);
     ui->hits->display(0);
     ui->misses->display(0);
     ui->continue_btn->setEnabled(false);
 }
 
-void gameWindow::onHit()
+void GameWindow::onHit()
 {
     int hits = ui->hits->value();
     ui->hits->display(++hits);
@@ -47,13 +52,13 @@ void gameWindow::onHit()
     ui->remaining->display(--remaining);
 }
 
-void gameWindow::onMiss()
+void GameWindow::onMiss()
 {
     int misses = ui->misses->value();
     ui->misses->display(++misses);
 }
 
-void gameWindow::enableContinue()
+void GameWindow::enableContinue()
 {
     ui->continue_btn->setEnabled(true);
     ui->continue_btn->setStyleSheet(
@@ -63,10 +68,10 @@ void gameWindow::enableContinue()
     );
 }
 
-bool gameWindow::checkForWin()
+bool GameWindow::checkForWin()
 {
     int shipsHit = 0;
-    for (int i = 0; i < ships; i++)
+    for (int i = 0; i < SHIPS; i++)
     {
         if (allButtons[shipPositions[i][0]]->property("clicked").toBool() &&
             allButtons[shipPositions[i][1]]->property("clicked").toBool() &&
@@ -79,13 +84,13 @@ bool gameWindow::checkForWin()
         }
     }
 
-    if (shipsHit == ships)
+    if (shipsHit == SHIPS)
         return true;
     else
         return false;
 }
 
-void gameWindow::placeShips_AI()
+void GameWindow::placeShips_AI()
 {
     // Possible placement moves to choose from
     //int moves[] = {{1, -1}, {10, -10}};
@@ -93,14 +98,14 @@ void gameWindow::placeShips_AI()
     // Count for AI ships placed
     int placed_ships = 0;
     // Algorithm for random ship placement
-    while (placed_ships < ships)
+    while (placed_ships < SHIPS)
     {
         int randomDirection = arc4random_uniform(4);
-        int randomIndex_1 = arc4random_uniform(cells);
+        int randomIndex_1 = arc4random_uniform(CELLS);
         int randomIndex_2 = randomIndex_1+moves[randomDirection];
         int randomIndex_3 = randomIndex_2+moves[randomDirection];
 
-        if ((randomIndex_3 < cells) &&
+        if ((randomIndex_3 < CELLS) &&
             (randomIndex_3 >= 0))
         {
             if ((randomDirection >= 2) ||
@@ -123,22 +128,22 @@ void gameWindow::placeShips_AI()
     }
 }
 
-void gameWindow::freezeCells()
+void GameWindow::freezeCells()
 {
-    for (int i = 0; i < cells; i++)
+    for (int i = 0; i < CELLS; i++)
         allButtons[i]->setEnabled(false);
 }
 
-void gameWindow::unfreezeCells()
+void GameWindow::unfreezeCells()
 {
-    for (int i = 0; i < cells; i++)
+    for (int i = 0; i < CELLS; i++)
     {
         if (!allButtons[i]->property("clicked").toBool())
             allButtons[i]->setEnabled(true);
     }
 }
 
-void gameWindow::onGridClick()
+void GameWindow::onGridClick()
 {
     freezeCells();
     // Get the button that triggered the event
@@ -171,16 +176,16 @@ void gameWindow::onGridClick()
     enableContinue();
 }
 
-void gameWindow::setupGridButtons()
+void GameWindow::setupGridButtons()
 {
     // Connect all grid buttons to the onGridClick() slot
-    for (int i = 0; i < cells; i++)
-        connect(allButtons[i], &QPushButton::clicked, this, &gameWindow::onGridClick);
+    for (int i = 0; i < CELLS; i++)
+        connect(allButtons[i], &QPushButton::clicked, this, &GameWindow::onGridClick);
 }
 
-void gameWindow::initializeAllButtons()
+void GameWindow::initializeAllButtons()
 {
-    QPushButton* gridButtons[cells] = {
+    QPushButton* gridButtons[CELLS] = {
         ui->a1, ui->a2, ui->a3, ui->a4, ui->a5, ui->a6, ui->a7, ui->a8, ui->a9, ui->a10,
         ui->b1, ui->b2, ui->b3, ui->b4, ui->b5, ui->b6, ui->b7, ui->b8, ui->b9, ui->b10,
         ui->c1, ui->c2, ui->c3, ui->c4, ui->c5, ui->c6, ui->c7, ui->c8, ui->c9, ui->c10,
@@ -196,8 +201,18 @@ void gameWindow::initializeAllButtons()
     std::copy(std::begin(gridButtons), std::end(gridButtons), std::begin(allButtons));
 }
 
-void gameWindow::on_continue_btn_clicked()
+void GameWindow::on_continue_btn_clicked()
 {
-    return;
+    if (otherGameWindow)
+    {
+        otherGameWindow->setGeometry(this->geometry());
+        this->hide();
+        otherGameWindow->show();
+    }
+}
+
+void GameWindow::setOtherGameWindow(GameWindow* otherWindow)
+{
+    otherGameWindow = otherWindow;
 }
 

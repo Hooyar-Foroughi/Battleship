@@ -21,27 +21,27 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_startWindow_t {
+struct qt_meta_stringdata_StartWindow_t {
     QByteArrayData data[3];
     char stringdata0[34];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_startWindow_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_StartWindow_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_startWindow_t qt_meta_stringdata_startWindow = {
+static const qt_meta_stringdata_StartWindow_t qt_meta_stringdata_StartWindow = {
     {
-QT_MOC_LITERAL(0, 0, 11), // "startWindow"
+QT_MOC_LITERAL(0, 0, 11), // "StartWindow"
 QT_MOC_LITERAL(1, 12, 20), // "on_start_btn_clicked"
 QT_MOC_LITERAL(2, 33, 0) // ""
 
     },
-    "startWindow\0on_start_btn_clicked\0"
+    "StartWindow\0on_start_btn_clicked\0"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_startWindow[] = {
+static const uint qt_meta_data_StartWindow[] = {
 
  // content:
        8,       // revision
@@ -52,54 +52,63 @@ static const uint qt_meta_data_startWindow[] = {
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
 
- // slots: name, argc, parameters, tag, flags
-       1,    0,   19,    2, 0x08 /* Private */,
+ // signals: name, argc, parameters, tag, flags
+       1,    0,   19,    2, 0x06 /* Public */,
 
- // slots: parameters
+ // signals: parameters
     QMetaType::Void,
 
        0        // eod
 };
 
-void startWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void StartWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        auto *_t = static_cast<startWindow *>(_o);
+        auto *_t = static_cast<StartWindow *>(_o);
         (void)_t;
         switch (_id) {
         case 0: _t->on_start_btn_clicked(); break;
         default: ;
         }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        {
+            using _t = void (StartWindow::*)();
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&StartWindow::on_start_btn_clicked)) {
+                *result = 0;
+                return;
+            }
+        }
     }
     (void)_a;
 }
 
-QT_INIT_METAOBJECT const QMetaObject startWindow::staticMetaObject = { {
+QT_INIT_METAOBJECT const QMetaObject StartWindow::staticMetaObject = { {
     QMetaObject::SuperData::link<QMainWindow::staticMetaObject>(),
-    qt_meta_stringdata_startWindow.data,
-    qt_meta_data_startWindow,
+    qt_meta_stringdata_StartWindow.data,
+    qt_meta_data_StartWindow,
     qt_static_metacall,
     nullptr,
     nullptr
 } };
 
 
-const QMetaObject *startWindow::metaObject() const
+const QMetaObject *StartWindow::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *startWindow::qt_metacast(const char *_clname)
+void *StartWindow::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_startWindow.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_StartWindow.stringdata0))
         return static_cast<void*>(this);
     return QMainWindow::qt_metacast(_clname);
 }
 
-int startWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int StartWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QMainWindow::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -114,6 +123,12 @@ int startWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         _id -= 1;
     }
     return _id;
+}
+
+// SIGNAL 0
+void StartWindow::on_start_btn_clicked()
+{
+    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE
