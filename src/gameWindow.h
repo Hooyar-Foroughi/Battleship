@@ -18,6 +18,8 @@ public:
 private slots:
     void onGridClick();
 
+    void on_continue_btn_clicked();
+
 private:
     Ui::gameWindow *ui;
     void setupGridButtons();
