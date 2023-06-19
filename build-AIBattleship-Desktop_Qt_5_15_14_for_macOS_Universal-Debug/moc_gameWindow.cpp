@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_GameWindow_t {
     QByteArrayData data[4];
-    char stringdata0[48];
+    char stringdata0[40];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,10 +35,10 @@ static const qt_meta_stringdata_GameWindow_t qt_meta_stringdata_GameWindow = {
 QT_MOC_LITERAL(0, 0, 10), // "GameWindow"
 QT_MOC_LITERAL(1, 11, 11), // "onGridClick"
 QT_MOC_LITERAL(2, 23, 0), // ""
-QT_MOC_LITERAL(3, 24, 23) // "on_continue_btn_clicked"
+QT_MOC_LITERAL(3, 24, 15) // "onContinueClick"
 
     },
-    "GameWindow\0onGridClick\0\0on_continue_btn_clicked"
+    "GameWindow\0onGridClick\0\0onContinueClick"
 };
 #undef QT_MOC_LITERAL
 
@@ -73,7 +73,7 @@ void GameWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         (void)_t;
         switch (_id) {
         case 0: _t->onGridClick(); break;
-        case 1: _t->on_continue_btn_clicked(); break;
+        case 1: _t->onContinueClick(); break;
         default: ;
         }
     }

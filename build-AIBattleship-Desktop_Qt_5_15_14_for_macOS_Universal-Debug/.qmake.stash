@@ -44,3 +44,4 @@ QMAKE_MAC_SDK.macosx.Path = /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 QMAKE_XCODE_DEVELOPER_PATH = /Library/Developer/CommandLineTools
 QMAKE_LICHECK_TIMESTAMP = "Fri Jun 16"
 QMAKE_LICHECK_TIMESTAMP = "Sun Jun 18"
+QMAKE_LICHECK_TIMESTAMP = "Mon Jun 19"

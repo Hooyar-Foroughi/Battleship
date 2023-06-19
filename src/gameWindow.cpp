@@ -8,25 +8,15 @@ GameWindow::GameWindow(int windowType, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::gameWindow)
 {
-    playerWindow = windowType;
+    windowID = windowType;
+    ui->setupUi(this);
+    initializeAllCells();
+    setupButtons();
+    setupInfoBar();
+    placeShips_AI(gridCells, shipPositions);
 
-    if (playerWindow == USER_WINDOW)
-    {
-        ui->setupUi(this);
-        initializeAllButtons();
-        setupGridButtons();
-        setupInfoBar();
-        placeShips_AI(allButtons, shipPositions);
-        showUserShips(allButtons, shipPositions);
-    }
-    else if (playerWindow == AI_WINDOW)
-    {
-        ui->setupUi(this);
-        initializeAllButtons();
-        setupGridButtons();
-        setupInfoBar();
-        placeShips_AI(allButtons, shipPositions);
-    }
+    if (windowID == USER_WINDOW)
+        showUserShips(gridCells, shipPositions);
 }
 
 GameWindow::~GameWindow()
@@ -36,51 +26,30 @@ GameWindow::~GameWindow()
 
 void GameWindow::setupInfoBar()
 {
-    if (playerWindow == USER_WINDOW)
+    if (windowID == USER_WINDOW)
         ui->turn_label->setText("Opponent's turn!");
-    else if (playerWindow == AI_WINDOW)
+    else if (windowID == AI_WINDOW)
         ui->turn_label->setText("Your turn!");
 
     ui->remaining->display(SHIPS*SHIP_LENGTH);
     ui->hits->display(0);
     ui->misses->display(0);
-    //ui->continue_btn->setEnabled(false);
+    ui->continue_btn->setEnabled(false);
 }
 
-void GameWindow::enableContinue()
-{
-    ui->continue_btn->setEnabled(true);
-    ui->continue_btn->setStyleSheet(
-        "QPushButton { color: black; background-color: rgba(0, 255, 0, 0.65); border: 1px solid black; }"
-        "QPushButton:hover { background-color: rgba(255, 255, 0, 1); }"
-        "QPushButton:pressed { background-color: rgba(255, 255, 0, 0.3); }"
-    );
-}
-
-void GameWindow::onGridClick()
-{
-    freezeCells(allButtons);
-    // Get the button that triggered the event
-    QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
-    //QString buttonName = clickedButton->objectName();
-    //qDebug() << "Clicked button name: " << buttonName;
-    clickedButton->setProperty("clicked", QVariant(true));
-    clickedButton->setEnabled(false);
-    processGuess(allButtons, clickedButton, shipPositions, ui);
-    enableContinue();
-}
-
-void GameWindow::setupGridButtons()
+void GameWindow::setupButtons()
 {
     // Connect all grid buttons to the onGridClick() slot
     for (int i = 0; i < CELLS; i++)
-        connect(allButtons[i], &QPushButton::clicked, this, &GameWindow::onGridClick);
+        connect(gridCells[i], &QPushButton::clicked, this, &GameWindow::onGridClick);
     // Disable clicking buttons on user's game-board (AI's turn)
-    if (playerWindow == USER_WINDOW)
-        freezeCells(allButtons);
+    if (windowID == USER_WINDOW)
+        freezeCells(gridCells);
+
+    connect(ui->continue_btn, &QPushButton::clicked, this, &GameWindow::onContinueClick);
 }
 
-void GameWindow::initializeAllButtons()
+void GameWindow::initializeAllCells()
 {
     QPushButton* gridButtons[CELLS] = {
         ui->a1, ui->a2, ui->a3, ui->a4, ui->a5, ui->a6, ui->a7, ui->a8, ui->a9, ui->a10,
@@ -95,10 +64,23 @@ void GameWindow::initializeAllButtons()
     };
 
     // Copy the buttons/cells to the global array
-    std::copy(std::begin(gridButtons), std::end(gridButtons), std::begin(allButtons));
+    std::copy(std::begin(gridButtons), std::end(gridButtons), std::begin(gridCells));
 }
 
-void GameWindow::on_continue_btn_clicked()
+void GameWindow::onGridClick()
+{
+    freezeCells(gridCells);
+    // Get the button that triggered the event
+    QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
+    //QString buttonName = clickedButton->objectName();
+    //qDebug() << "Clicked button name: " << buttonName;
+    clickedButton->setProperty("clicked", QVariant(true));
+    clickedButton->setEnabled(false);
+    processGuess(gridCells, clickedButton, shipPositions, ui);
+    enableContinue(ui);
+}
+
+void GameWindow::onContinueClick()
 {
     if (otherGameWindow)
     {
@@ -111,10 +93,14 @@ void GameWindow::on_continue_btn_clicked()
             "border: 1px solid black;"
         );
 
-        if (playerWindow == AI_WINDOW)
+        if (windowID == AI_WINDOW)
         {
-            aiGuess(otherGameWindow->allButtons, shipPositions, otherGameWindow->ui);
-            unfreezeCells(allButtons);
+            aiGuess(
+                otherGameWindow->gridCells,
+                otherGameWindow->shipPositions,
+                otherGameWindow->ui
+            );
+            unfreezeCells(gridCells);
         }
     }
 }

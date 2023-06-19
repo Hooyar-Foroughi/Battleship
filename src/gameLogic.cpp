@@ -3,7 +3,7 @@
 #include <ctime>
 #include <QDebug> // For debugging purposes
 
-void placeShips_AI(QPushButton* allButtons[], int shipPositions[][SHIP_LENGTH])
+void placeShips_AI(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH])
 {
     // Possible placement moves to choose from
     int moves[] = {1, -1, 10, -10};
@@ -23,13 +23,13 @@ void placeShips_AI(QPushButton* allButtons[], int shipPositions[][SHIP_LENGTH])
             if ((randomDirection >= 2) ||
                 (randomIndex_1/10 == randomIndex_3/10))
             {
-                if (!allButtons[randomIndex_1]->property("ship").toBool() &&
-                    !allButtons[randomIndex_2]->property("ship").toBool() &&
-                    !allButtons[randomIndex_3]->property("ship").toBool())
+                if (!gridCells[randomIndex_1]->property("ship").toBool() &&
+                    !gridCells[randomIndex_2]->property("ship").toBool() &&
+                    !gridCells[randomIndex_3]->property("ship").toBool())
                 {
-                    allButtons[randomIndex_1]->setProperty("ship", QVariant(true));
-                    allButtons[randomIndex_2]->setProperty("ship", QVariant(true));
-                    allButtons[randomIndex_3]->setProperty("ship", QVariant(true));
+                    gridCells[randomIndex_1]->setProperty("ship", QVariant(true));
+                    gridCells[randomIndex_2]->setProperty("ship", QVariant(true));
+                    gridCells[randomIndex_3]->setProperty("ship", QVariant(true));
                     shipPositions[placed_ships][0] = randomIndex_1;
                     shipPositions[placed_ships][1] = randomIndex_2;
                     shipPositions[placed_ships][2] = randomIndex_3;
@@ -40,7 +40,7 @@ void placeShips_AI(QPushButton* allButtons[], int shipPositions[][SHIP_LENGTH])
     }
 }
 
-void aiGuess(QPushButton* allButtons[], int shipPositions[][SHIP_LENGTH],
+void aiGuess(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH],
              Ui::gameWindow* ui)
 {
     bool guessPlaced = false;
@@ -48,73 +48,66 @@ void aiGuess(QPushButton* allButtons[], int shipPositions[][SHIP_LENGTH],
     while (!guessPlaced)
     {
         int randomIndex = arc4random_uniform(CELLS);
-        if (!allButtons[randomIndex]->property("clicked").toBool())
+        if (!gridCells[randomIndex]->property("clicked").toBool())
         {
-            allButtons[randomIndex]->setProperty("clicked", QVariant(true));
-            processGuess(allButtons, allButtons[randomIndex], shipPositions, ui);
+            gridCells[randomIndex]->setProperty("clicked", QVariant(true));
+            processGuess(gridCells, gridCells[randomIndex], shipPositions, ui);
             guessPlaced = true;
         }
     }
 }
 
-void processGuess(QPushButton* allButtons[], QPushButton* guessedButton,
+void processGuess(QPushButton* gridCells[], QPushButton* guessedCell,
                   int shipPositions[][SHIP_LENGTH],Ui::gameWindow* ui)
 {
-    if (guessedButton->property("ship").toBool())
+    if (guessedCell->property("ship").toBool())
     {
-        onHit(ui, guessedButton);
-        checkForWin(allButtons, shipPositions);
+        onHit(ui, guessedCell);
+        checkForWin(gridCells, shipPositions);
     }
     else
-        onMiss(ui, guessedButton);
+        onMiss(ui, guessedCell);
+
+    enableContinue(ui);
 }
 
-void showUserShips(QPushButton* allButtons[], int shipPositions[][SHIP_LENGTH])
+void showUserShips(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH])
 {
     for (int i = 0; i < SHIPS; i++)
     {
-        allButtons[shipPositions[i][0]]->setStyleSheet(
-            "background-color: rgba(0, 0, 255, 0.45); "
-            "border: 2px solid black;"
-        );
-        allButtons[shipPositions[i][1]]->setStyleSheet(
-            "background-color: rgba(0, 0, 255, 0.45); "
-            "border: 2px solid black;"
-        );
-        allButtons[shipPositions[i][2]]->setStyleSheet(
-            "background-color: rgba(0, 0, 255, 0.45); "
-            "border: 2px solid black;"
-        );
+        setCellBlue(gridCells[shipPositions[i][0]]);
+        setCellBlue(gridCells[shipPositions[i][1]]);
+        setCellBlue(gridCells[shipPositions[i][2]]);
     }
 }
 
-void freezeCells(QPushButton* allButtons[])
+void freezeCells(QPushButton* gridCells[])
 {
     for (int i = 0; i < CELLS; i++)
-        allButtons[i]->setEnabled(false);
+        gridCells[i]->setEnabled(false);
 }
 
-void unfreezeCells(QPushButton* allButtons[])
+void unfreezeCells(QPushButton* gridCells[])
 {
     for (int i = 0; i < CELLS; i++)
     {
-        if (!allButtons[i]->property("clicked").toBool())
-            allButtons[i]->setEnabled(true);
+        if (!gridCells[i]->property("clicked").toBool())
+            gridCells[i]->setEnabled(true);
     }
 }
 
-bool checkForWin(QPushButton* allButtons[], int shipPositions[][SHIP_LENGTH])
+bool checkForWin(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH])
 {
     int shipsHit = 0;
     for (int i = 0; i < SHIPS; i++)
     {
-        if (allButtons[shipPositions[i][0]]->property("clicked").toBool() &&
-            allButtons[shipPositions[i][1]]->property("clicked").toBool() &&
-            allButtons[shipPositions[i][2]]->property("clicked").toBool())
+        if (gridCells[shipPositions[i][0]]->property("clicked").toBool() &&
+            gridCells[shipPositions[i][1]]->property("clicked").toBool() &&
+            gridCells[shipPositions[i][2]]->property("clicked").toBool())
         {
-            allButtons[shipPositions[i][0]]->setText("💥");
-            allButtons[shipPositions[i][1]]->setText("💥");
-            allButtons[shipPositions[i][2]]->setText("💥");
+            gridCells[shipPositions[i][0]]->setText("💥");
+            gridCells[shipPositions[i][1]]->setText("💥");
+            gridCells[shipPositions[i][2]]->setText("💥");
             shipsHit++;
         }
     }
@@ -125,28 +118,24 @@ bool checkForWin(QPushButton* allButtons[], int shipPositions[][SHIP_LENGTH])
         return false;
 }
 
-void onHit(Ui::gameWindow* ui, QPushButton* guessedButton)
+void onHit(Ui::gameWindow* ui, QPushButton* guessedCell)
 {
-    guessedButton->setStyleSheet(
-        "QPushButton { background-color: rgba(0, 255, 0, 0.65); border: 2px solid black; }"
-        "QPushButton:hover { background-color: rgba(255, 255, 0, 1); }"
-        "QPushButton:pressed { background-color: rgba(255, 255, 0, 0.3); }"
-    );
-
+    setCellGreen(guessedCell);
     int hits = ui->hits->value();
     ui->hits->display(++hits);
     int remaining = ui->remaining->value();
     ui->remaining->display(--remaining);
 }
 
-void onMiss(Ui::gameWindow* ui, QPushButton* guessedButton)
+void onMiss(Ui::gameWindow* ui, QPushButton* guessedCell)
 {
-    guessedButton->setStyleSheet(
-        "QPushButton { background-color: rgba(255, 0, 0, 0.65); border: 2px solid black; }"
-        "QPushButton:hover { background-color: rgba(255, 255, 0, 1); }"
-        "QPushButton:pressed { background-color: rgba(255, 255, 0, 0.3); }"
-    );
-
+    setCellRed(guessedCell);
     int misses = ui->misses->value();
     ui->misses->display(++misses);
+}
+
+void enableContinue(Ui::gameWindow* ui)
+{
+    ui->continue_btn->setEnabled(true);
+    highlightContinue(ui);
 }

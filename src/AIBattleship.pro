@@ -10,12 +10,14 @@ CONFIG += c++17
 
 SOURCES += \
     gameLogic.cpp \
+    gameView.cpp \
     gameWindow.cpp \
     main.cpp \
     startWindow.cpp
 
 HEADERS += \
     gameLogic.h \
+    gameView.h \
     gameWindow.h \
     startWindow.h
 
