@@ -52,11 +52,13 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../src/gameWindow.cpp \
+SOURCES       = ../src/gameLogic.cpp \
+		../src/gameWindow.cpp \
 		../src/main.cpp \
 		../src/startWindow.cpp moc_gameWindow.cpp \
 		moc_startWindow.cpp
-OBJECTS       = gameWindow.o \
+OBJECTS       = gameLogic.o \
+		gameWindow.o \
 		main.o \
 		startWindow.o \
 		moc_gameWindow.o \
@@ -241,8 +243,10 @@ DIST          = /Users/hooyar/Qt/5.15.14/macos/mkspecs/features/spec_pre.prf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/exceptions.prf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/yacc.prf \
 		/Users/hooyar/Qt/5.15.14/macos/mkspecs/features/lex.prf \
-		../src/AIBattleship.pro ../src/gameWindow.h \
-		../src/startWindow.h ../src/gameWindow.cpp \
+		../src/AIBattleship.pro ../src/gameLogic.h \
+		../src/gameWindow.h \
+		../src/startWindow.h ../src/gameLogic.cpp \
+		../src/gameWindow.cpp \
 		../src/main.cpp \
 		../src/startWindow.cpp
 QMAKE_TARGET  = AIBattleship
@@ -667,8 +671,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../src/gameWindow.h ../src/startWindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../src/gameWindow.cpp ../src/main.cpp ../src/startWindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../src/gameLogic.h ../src/gameWindow.h ../src/startWindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../src/gameLogic.cpp ../src/gameWindow.cpp ../src/main.cpp ../src/startWindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../src/gameWindow.ui ../src/startWindow.ui $(DISTDIR)/
 
 
@@ -704,6 +708,10 @@ compiler_moc_header_clean:
 moc_gameWindow.cpp: ../src/gameWindow.h \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QWidget \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qwidget.h \
+		../src/gameLogic.h \
+		ui_gameWindow.h \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QPushButton \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
 		/Users/hooyar/Qt/5.15.14/macos/bin/moc
 	/Users/hooyar/Qt/5.15.14/macos/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=12 -D__clang_minor__=0 -D__clang_patchlevel__=5 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/hooyar/Qt/5.15.14/macos/mkspecs/macx-clang -I'/Users/hooyar/Desktop/Projects/C :: C++/Battleship/src' -I/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers -I/Users/hooyar/Qt/5.15.14/macos/lib/QtGui.framework/Headers -I/Users/hooyar/Qt/5.15.14/macos/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include -F/Users/hooyar/Qt/5.15.14/macos/lib ../src/gameWindow.h -o moc_gameWindow.cpp
 
@@ -713,6 +721,10 @@ moc_startWindow.cpp: ../src/startWindow.h \
 		../src/gameWindow.h \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QWidget \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qwidget.h \
+		../src/gameLogic.h \
+		ui_gameWindow.h \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QPushButton \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
 		/Users/hooyar/Qt/5.15.14/macos/bin/moc
 	/Users/hooyar/Qt/5.15.14/macos/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=12 -D__clang_minor__=0 -D__clang_patchlevel__=5 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/hooyar/Qt/5.15.14/macos/mkspecs/macx-clang -I'/Users/hooyar/Desktop/Projects/C :: C++/Battleship/src' -I/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers -I/Users/hooyar/Qt/5.15.14/macos/lib/QtGui.framework/Headers -I/Users/hooyar/Qt/5.15.14/macos/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include -F/Users/hooyar/Qt/5.15.14/macos/lib ../src/startWindow.h -o moc_startWindow.cpp
 
@@ -743,10 +755,21 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
+gameLogic.o: ../src/gameLogic.cpp ../src/gameLogic.h \
+		ui_gameWindow.h \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QPushButton \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtCore.framework/Headers/QDebug \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtCore.framework/Headers/qdebug.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gameLogic.o ../src/gameLogic.cpp
+
 gameWindow.o: ../src/gameWindow.cpp ../src/gameWindow.h \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QWidget \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qwidget.h \
+		../src/gameLogic.h \
 		ui_gameWindow.h \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QPushButton \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtCore.framework/Headers/QDebug \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtCore.framework/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gameWindow.o ../src/gameWindow.cpp
@@ -757,6 +780,10 @@ main.o: ../src/main.cpp ../src/startWindow.h \
 		../src/gameWindow.h \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QWidget \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qwidget.h \
+		../src/gameLogic.h \
+		ui_gameWindow.h \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QPushButton \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QApplication \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../src/main.cpp
@@ -767,6 +794,10 @@ startWindow.o: ../src/startWindow.cpp ../src/startWindow.h \
 		../src/gameWindow.h \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QWidget \
 		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qwidget.h \
+		../src/gameLogic.h \
+		ui_gameWindow.h \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/QPushButton \
+		/Users/hooyar/Qt/5.15.14/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
 		ui_startWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o startWindow.o ../src/startWindow.cpp
 

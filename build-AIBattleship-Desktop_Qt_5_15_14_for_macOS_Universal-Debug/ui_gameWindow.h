@@ -3853,7 +3853,7 @@ public:
         col_9->setText(QCoreApplication::translate("gameWindow", "9", nullptr));
         col_10->setText(QCoreApplication::translate("gameWindow", "10", nullptr));
         continue_btn->setText(QCoreApplication::translate("gameWindow", "Continue", nullptr));
-        turn_label->setText(QCoreApplication::translate("gameWindow", "Your Turn!", nullptr));
+        turn_label->setText(QString());
         hm_label->setText(QCoreApplication::translate("gameWindow", "H/M:", nullptr));
         remaining_label->setText(QCoreApplication::translate("gameWindow", "Remaining:", nullptr));
         hm_seperator->setText(QCoreApplication::translate("gameWindow", ":", nullptr));

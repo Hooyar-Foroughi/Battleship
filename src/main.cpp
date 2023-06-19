@@ -8,16 +8,16 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     StartWindow startWindow;
-    GameWindow userWindow(USER_WINDOW);
-    GameWindow oppWindow(AI_WINDOW);
+    GameWindow userWindow = GameWindow(USER_WINDOW);
+    GameWindow aiWindow = GameWindow(AI_WINDOW);
 
-    userWindow.setOtherGameWindow(&oppWindow);
-    oppWindow.setOtherGameWindow(&userWindow);
+    userWindow.setOtherGameWindow(&aiWindow);
+    aiWindow.setOtherGameWindow(&userWindow);
 
-    QObject::connect(&startWindow, &StartWindow::on_start_btn_clicked, [&]() {
-        userWindow.setGeometry(startWindow.geometry());
+    QObject::connect(&startWindow, &StartWindow::on_start_btn_clicked, &startWindow, [&]() {
+        aiWindow.setGeometry(startWindow.geometry());
         startWindow.hide();
-        userWindow.show();
+        aiWindow.show();
     });
 
     startWindow.show();
