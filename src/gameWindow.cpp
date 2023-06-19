@@ -27,13 +27,13 @@ GameWindow::~GameWindow()
 void GameWindow::setupInfoBar()
 {
     if (windowID == USER_WINDOW)
-        ui->turn_label->setText("Opponent's turn!");
+        setTurnLabel(ui, QString("Opponent's turn!"));
     else if (windowID == AI_WINDOW)
-        ui->turn_label->setText("Your turn!");
+        setTurnLabel(ui, QString("Your turn!"));
 
-    ui->remaining->display(SHIPS*SHIP_LENGTH);
-    ui->hits->display(0);
-    ui->misses->display(0);
+    setRemainingDisplay(ui, SHIPS*SHIP_LENGTH);
+    setHitDisplay(ui, 0);
+    setMissDisplay(ui, 0);
     ui->continue_btn->setEnabled(false);
 }
 
@@ -87,11 +87,7 @@ void GameWindow::onContinueClick()
         otherGameWindow->setGeometry(this->geometry());
         this->hide();
         otherGameWindow->show();
-        ui->continue_btn->setStyleSheet(
-            "color: black; "
-            "background-color: grey; "
-            "border: 1px solid black;"
-        );
+        unhighlightContinue(ui);
 
         if (windowID == AI_WINDOW)
         {

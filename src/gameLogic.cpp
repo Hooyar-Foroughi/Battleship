@@ -105,9 +105,9 @@ bool checkForWin(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH])
             gridCells[shipPositions[i][1]]->property("clicked").toBool() &&
             gridCells[shipPositions[i][2]]->property("clicked").toBool())
         {
-            gridCells[shipPositions[i][0]]->setText("💥");
-            gridCells[shipPositions[i][1]]->setText("💥");
-            gridCells[shipPositions[i][2]]->setText("💥");
+            shipDestroyed(gridCells[shipPositions[i][0]]);
+            shipDestroyed(gridCells[shipPositions[i][1]]);
+            shipDestroyed(gridCells[shipPositions[i][2]]);
             shipsHit++;
         }
     }
@@ -122,16 +122,16 @@ void onHit(Ui::gameWindow* ui, QPushButton* guessedCell)
 {
     setCellGreen(guessedCell);
     int hits = ui->hits->value();
-    ui->hits->display(++hits);
+    setHitDisplay(ui, ++hits);
     int remaining = ui->remaining->value();
-    ui->remaining->display(--remaining);
+    setRemainingDisplay(ui, --remaining);
 }
 
 void onMiss(Ui::gameWindow* ui, QPushButton* guessedCell)
 {
     setCellRed(guessedCell);
     int misses = ui->misses->value();
-    ui->misses->display(++misses);
+    setMissDisplay(ui, ++misses);
 }
 
 void enableContinue(Ui::gameWindow* ui)
