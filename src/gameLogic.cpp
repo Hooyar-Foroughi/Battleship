@@ -57,18 +57,25 @@ void aiGuess(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH],
             randomMove = allMoves[randomMove];
             QPushButton* nextCell;
 
-            for (int i = 0; i < 4; i++) // Need to have solution for side-by-side hits that are not the same ship
-            {                           // Maybe add a 'already guessed' property to the cell? Maybe not...?
+            for (int i = 0; i < 4; i++) // When side-by-side hits that arent the same ship occur, one of the hits is forgotten
+            {
                 if (lastHitIndex+allMoves[i] < CELLS && lastHitIndex+allMoves[i] >= 0)
                 {
                     nextCell = gridCells[lastHitIndex+allMoves[i]];
 
                     if (nextCell->property("clicked").toBool() &&
-                        nextCell->property("ship").toBool())
+                        nextCell->property("ship").toBool() &&
+                        !nextCell->property("destroyed").toBool() &&
+                        (((i < 2) && (lastHitIndex/10 == (lastHitIndex+allMoves[i])/10)) ||
+                         ((i >= 2) && (lastHitIndex/10 != (lastHitIndex+allMoves[i])/10))))
                     {
                         int validMoves[] = {(2)*allMoves[i], (-1)*allMoves[i]};
-                        randomMove = arc4random_uniform(2);
-                        randomMove = validMoves[randomMove];
+                        if (!gridCells[lastHitIndex+validMoves[0]]->property("clicked").toBool() ||
+                            !gridCells[lastHitIndex+validMoves[1]]->property("clicked").toBool())
+                        {
+                            randomMove = arc4random_uniform(2);
+                            randomMove = validMoves[randomMove];
+                        }
                     }
                 }
             }
