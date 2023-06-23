@@ -13,12 +13,15 @@
 #define SHIP_LENGTH 3
 
 void placeShips_AI(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH]);
-void aiGuess(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH], Ui::gameWindow* ui);
+void aiGuess(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH],
+             Ui::gameWindow* ui, int &lastHitIndex);
 void showUserShips(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH]);
 void freezeCells(QPushButton* gridCells[]);
 void unfreezeCells(QPushButton* gridCells[]);
+void processGuess(QPushButton* gridCells[], int guessedCellIndex,
+            int shipPositions[][SHIP_LENGTH], Ui::gameWindow* ui, int &lastHitIndex);
 void processGuess(QPushButton* gridCells[], QPushButton* guessedCell,
-                int shipPositions[][SHIP_LENGTH],Ui::gameWindow* ui);
+                  int shipPositions[][SHIP_LENGTH], Ui::gameWindow* ui);
 bool checkForWin(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH]);
 void onHit(Ui::gameWindow* ui, QPushButton* guessedCell);
 void onMiss(Ui::gameWindow* ui, QPushButton* guessedCell);

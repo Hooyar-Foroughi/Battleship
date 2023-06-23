@@ -9,6 +9,7 @@ GameWindow::GameWindow(int windowType, QWidget *parent)
     , ui(new Ui::gameWindow)
 {
     windowID = windowType;
+    lastHitIndex = -1;
     ui->setupUi(this);
     initializeAllCells();
     setupButtons();
@@ -94,7 +95,8 @@ void GameWindow::onContinueClick()
             aiGuess(
                 otherGameWindow->gridCells,
                 otherGameWindow->shipPositions,
-                otherGameWindow->ui
+                otherGameWindow->ui,
+                otherGameWindow->lastHitIndex
             );
             unfreezeCells(gridCells);
         }

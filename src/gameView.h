@@ -9,7 +9,7 @@ void unhighlightContinue(Ui::gameWindow* ui);
 void setCellRed(QPushButton* cell);
 void setCellGreen(QPushButton* cell);
 void setCellBlue(QPushButton* cell);
-void shipDestroyed(QPushButton* cell);
+void setDestroyedView(QPushButton* cell);
 void setHitDisplay(Ui::gameWindow* ui, int value);
 void setMissDisplay(Ui::gameWindow* ui, int value);
 void setRemainingDisplay(Ui::gameWindow* ui, int value);

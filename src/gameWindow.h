@@ -31,6 +31,9 @@ public:
     int shipPositions[SHIPS][SHIP_LENGTH];
     // Array for pointers to each grid cell
     QPushButton* gridCells[CELLS];
+    // Pointers to the AI's last guessed cell
+    int lastHitIndex;
+
 
 private slots:
     void onGridClick();

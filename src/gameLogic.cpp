@@ -41,24 +41,78 @@ void placeShips_AI(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH])
 }
 
 void aiGuess(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH],
-             Ui::gameWindow* ui)
+             Ui::gameWindow* ui, int &lastHitIndex)
 {
     bool guessPlaced = false;
+    int randomMove;
+    int chosenCellIndex;
 
     while (!guessPlaced)
     {
-        int randomIndex = arc4random_uniform(CELLS);
-        if (!gridCells[randomIndex]->property("clicked").toBool())
+        if (lastHitIndex != -1 && !gridCells[lastHitIndex]->property("destroyed").toBool())
         {
-            gridCells[randomIndex]->setProperty("clicked", QVariant(true));
-            processGuess(gridCells, gridCells[randomIndex], shipPositions, ui);
+            // Possible placement moves to choose from
+            int allMoves[] = {1, -1, 10, -10};
+            randomMove = arc4random_uniform(4);
+            randomMove = allMoves[randomMove];
+            QPushButton* nextCell;
+
+            for (int i = 0; i < 4; i++) // Need to have solution for side-by-side hits that are not the same ship
+            {                           // Maybe add a 'already guessed' property to the cell? Maybe not...?
+                if (lastHitIndex+allMoves[i] < CELLS && lastHitIndex+allMoves[i] >= 0)
+                {
+                    nextCell = gridCells[lastHitIndex+allMoves[i]];
+
+                    if (nextCell->property("clicked").toBool() &&
+                        nextCell->property("ship").toBool())
+                    {
+                        int validMoves[] = {(2)*allMoves[i], (-1)*allMoves[i]};
+                        randomMove = arc4random_uniform(2);
+                        randomMove = validMoves[randomMove];
+                    }
+                }
+            }
+            chosenCellIndex = lastHitIndex + randomMove;
+        }
+        else
+        {
+            chosenCellIndex = arc4random_uniform(CELLS);
+        }
+        if (chosenCellIndex < CELLS && chosenCellIndex >= 0 &&
+            !gridCells[chosenCellIndex]->property("clicked").toBool())
+        {
+            gridCells[chosenCellIndex]->setProperty("clicked", QVariant(true));
+            processGuess(
+                gridCells,
+                chosenCellIndex,
+                shipPositions,
+                ui,
+                lastHitIndex
+                );
             guessPlaced = true;
         }
     }
 }
 
+// Processing AI's guess
+void processGuess(QPushButton* gridCells[], int guessedCellIndex,
+            int shipPositions[][SHIP_LENGTH], Ui::gameWindow* ui, int &lastHitIndex)
+{
+    if (gridCells[guessedCellIndex]->property("ship").toBool())
+    {
+        lastHitIndex = guessedCellIndex;
+        onHit(ui, gridCells[guessedCellIndex]);
+        checkForWin(gridCells, shipPositions);
+    }
+    else
+        onMiss(ui, gridCells[guessedCellIndex]);
+
+    enableContinue(ui);
+}
+
+// Processing user's guess
 void processGuess(QPushButton* gridCells[], QPushButton* guessedCell,
-                  int shipPositions[][SHIP_LENGTH],Ui::gameWindow* ui)
+                  int shipPositions[][SHIP_LENGTH], Ui::gameWindow* ui)
 {
     if (guessedCell->property("ship").toBool())
     {
@@ -105,9 +159,11 @@ bool checkForWin(QPushButton* gridCells[], int shipPositions[][SHIP_LENGTH])
             gridCells[shipPositions[i][1]]->property("clicked").toBool() &&
             gridCells[shipPositions[i][2]]->property("clicked").toBool())
         {
-            shipDestroyed(gridCells[shipPositions[i][0]]);
-            shipDestroyed(gridCells[shipPositions[i][1]]);
-            shipDestroyed(gridCells[shipPositions[i][2]]);
+            for (int j = 0; j < SHIP_LENGTH; j++)
+            {
+               setDestroyedView(gridCells[shipPositions[i][j]]);
+               gridCells[shipPositions[i][j]]->setProperty("destroyed", QVariant(true));
+            }
             shipsHit++;
         }
     }

@@ -44,7 +44,7 @@ void setCellBlue(QPushButton* cell)
     );
 }
 
-void shipDestroyed(QPushButton* cell)
+void setDestroyedView(QPushButton* cell)
 {
     cell->setText("💥");
 }
